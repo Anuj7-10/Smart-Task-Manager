@@ -176,7 +176,7 @@ def home():
     # Check if the user has a wristband (user_id in session)
     if 'user_id' in session:
         return f"""
-        <h1>Welcome Back :), {session['username']}!</h1>
+        <h1>Welcome back, {session['username']}!</h1>
         <p>Your VIP wristband is active.</p>
         <a href='/logout'>Logout</a>
         """
