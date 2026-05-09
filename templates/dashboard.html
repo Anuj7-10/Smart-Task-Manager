@@ -158,12 +158,12 @@
 
     
     <script>
-        // Connect to the WebSocket tunnel
+        
         const socket = io();
 
-        // Listen for the exact event name we used in Python ('live_notification')
+        
         socket.on('live_notification', function(data) {
-            // Pop up an alert box with the message from the server!
+            
             alert("🔔 LIVE UPDATE: " + data.message);
         });
     </script>
