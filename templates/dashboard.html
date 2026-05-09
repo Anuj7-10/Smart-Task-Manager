@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Dashboard - Smart Task Manager</title>
+
+</head>
+
+<body>
+
+    <h2>Task Dashboard</h2>
+
+    <p>Welcome, {{ session['username'] }}! | <a href="/logout">Logout</a></p>
+
+    <div style="background-color: #f4f4f4; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+
+        <h3>Quick Stats</h3>
+
+        <p>
+
+            <strong>Total Tasks:</strong> {{ stats.total }} |
+
+            <strong>Completed:</strong> <span style="color: green;">{{ stats.completed }}</span> |
+
+            <strong>Pending:</strong> <span style="color: orange;">{{ stats.pending }}</span> |
+
+            <strong>Completion:</strong> {{ stats.percentage }}%
+
+        </p>
+
+    </div>
+
+    <hr>
+
+
+
+    <h3>Add a New Task</h3>
+
+    <form method="POST" action="/dashboard">
+
+        <label>Title:</label><br>
+
+        <input type="text" name="title" required><br><br>
+
+
+
+        <label>Description:</label><br>
+
+        <textarea name="description" rows="3"></textarea><br><br>
+
+
+
+        <label>Priority:</label>
+
+        <select name="priority">
+
+            <option value="High">High</option>
+
+            <option value="Medium" selected>Medium</option>
+
+            <option value="Low">Low</option>
+
+        </select><br><br>
+
+
+
+        <button type="submit">Add Task</button>
+
+    </form>
+
+    <hr>
+
+
+
+    <h3>Your Tasks</h3>
+
+    <table border="1" cellpadding="10" cellspacing="0">
+
+        <thead>
+
+            <tr>
+
+                <th>Title</th>
+
+                <th>Description</th>
+
+                <th>Priority</th>
+
+                <th>Status</th>
+
+                <th>Date Added</th>
+
+                <th>Actions</th> </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for task in tasks %}
+
+            <tr>
+
+                <td>{{ task.title }}</td>
+
+                <td>{{ task.description }}</td>
+
+                <td>{{ task.priority }}</td>
+
+                <td>
+
+                    {% if task.status == 'Completed' %}
+
+                        <strong style="color: green;">{{ task.status }}</strong>
+
+                    {% else %}
+
+                        <span style="color: orange;">{{ task.status }}</span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>{{ task.created_date.strftime('%Y-%m-%d') }}</td>
+
+                <td>
+
+                    <a href="/update/{{ task.id }}">
+
+                        {% if task.status == 'Pending' %} Mark Done {% else %} Mark Pending {% endif %}
+
+                    </a> |
+
+                    <a href="/delete/{{ task.id }}" style="color: red;">Delete</a>
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+
+                <td colspan="6">No tasks yet. Create one above!</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+
+    
+    <script>
+        // Connect to the WebSocket tunnel
+        const socket = io();
+
+        // Listen for the exact event name we used in Python ('live_notification')
+        socket.on('live_notification', function(data) {
+            // Pop up an alert box with the message from the server!
+            alert("🔔 LIVE UPDATE: " + data.message);
+        });
+    </script>
+
+</body>
+
+</body>
+
+</html>
