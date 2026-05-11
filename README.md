@@ -1,6 +1,7 @@
 # Smart Task Manager System
 
 This is a Python-based web application built with Flask, PostgreSQL, and WebSockets.
+Video Demonstration link - https://drive.google.com/file/d/1eg_pdVPQf02vX_TbdoAL421JllLzjidY/view?usp=sharing
 
 ## Setup Instructions
 1. Clone this repository to your computer.
